@@ -27,10 +27,12 @@ no warnings 'experimental';
 
 sub tokenize {
 	chomp(my $expr = shift);
-	my @res;
-
-	# ...
-
+	#$expr=~ //
+	my @res = split m{(\d*\.\d+e[+-]\d+|[-+/*()^])}, $expr;
+	for my $c (@res){
+	$c=~ s/^\s+|\s+$//g;
+	if ($c=~ /\d/){$c = 0 + $c;$c = $c."";}}
+	say @res;
 	return \@res;
 }
 
