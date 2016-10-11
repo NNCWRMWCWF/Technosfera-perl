@@ -71,8 +71,6 @@ sub rpn {
         }
       }
 	  $c1=$c;
-	  #say @rpn;
-	#say @temp_stack;
     }
     until($#temp_stack==-1){
 	push (@rpn, pop (@temp_stack));}

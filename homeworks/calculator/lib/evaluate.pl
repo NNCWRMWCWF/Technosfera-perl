@@ -23,13 +23,13 @@ sub evaluate {
 	my @temp_stack;
 	my $temp;
     for my $foo (@c){
-	if ($foo=~ /\d/){push (@temp_stack, $foo);}
-	if ($foo eq "U-"){$foo=-pop (@temp_stack); push (@temp_stack, $foo);}
-	if ($foo eq "+"){push (@temp_stack,pop (@temp_stack) + pop (@temp_stack));}
-	if ($foo eq "-"){push (@temp_stack,-pop (@temp_stack)+pop (@temp_stack));}
-	if ($foo eq "*"){push (@temp_stack,pop (@temp_stack)*pop (@temp_stack));}
-	if ($foo eq "/"){push (@temp_stack,1/pop (@temp_stack)*pop (@temp_stack));}
-	if ($foo eq "^"){$temp=pop (@temp_stack); push (@temp_stack,pop (@temp_stack)**$temp);}
+	  if ($foo=~ /\d/){push (@temp_stack, $foo);}
+	  if ($foo eq "U-"){$foo=-pop (@temp_stack); push (@temp_stack, $foo);}
+	  if ($foo eq "+"){push (@temp_stack,pop (@temp_stack) + pop (@temp_stack));}
+	  if ($foo eq "-"){push (@temp_stack,-pop (@temp_stack)+pop (@temp_stack));}
+	  if ($foo eq "*"){push (@temp_stack,pop (@temp_stack)*pop (@temp_stack));}
+	  if ($foo eq "/"){push (@temp_stack,1/pop (@temp_stack)*pop (@temp_stack));}
+	  if ($foo eq "^"){$temp=pop (@temp_stack); push (@temp_stack,pop (@temp_stack)**$temp);}
 	}
 	return $temp_stack[0];
 }
