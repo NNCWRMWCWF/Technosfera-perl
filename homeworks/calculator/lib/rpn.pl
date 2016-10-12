@@ -24,7 +24,7 @@ require "$FindBin::Bin/../lib/tokenize.pl";
 sub rpn {
 	my $expr = shift;
 	if ($expr=~ /e{2,}|\d+\.\d+\.\d+|^\s?[-+\s]+\s?$/){
-	  die "Bad: '$_'";}
+	  die "Bad: $expr";}
 	my $source = tokenize($expr);
 	my @rpn;
 	my @temp_stack;
