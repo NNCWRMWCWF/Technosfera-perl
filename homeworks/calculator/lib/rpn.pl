@@ -23,7 +23,7 @@ require "$FindBin::Bin/../lib/tokenize.pl";
 
 sub rpn {
 	my $expr = shift;
-	if ($expr=~ /e{2,}|\d+\.\d+\.\d+|^\s?[-+\s]+\s?$/){
+	if ($expr=~ /e{2,}|\d+\.\d+\.\d+|^\s?[-+\s]+\s?$|\d \d/){
 	  die "Bad: $expr";}
 	my $source = tokenize($expr);
 	my @rpn;
