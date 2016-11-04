@@ -4,26 +4,26 @@ use strict;
 use warnings;
 use FindBin;
 use DDP;
+use Getopt::Long;
 use lib "$FindBin::Bin/../lib";
-use Local::MusicLibrary qw/choice my_sort my_print/;
+use Local::MusicLibrary;
+use Local::Print;
 
 
-my (%hash, $line, @ar, @out_ar);
+my ($line, @ar, @out_ar, %hash_arg);
 my $i = 0;
 
 while(<STDIN>) {
     chomp;
-    $_ =~ m{^\. /(?<band>[^/]+)/(?<year>\d+)\s+ - \s+(?<album>[^/]+)/(?<track>.+)\.(?<format>[^\.]+)$}x;
-    $hash{$i} = {%+};
+    if ( $_ =~ m{^\. /(?<band>[^/]+)/(?<year>\d+)\s+ - \s+(?<album>[^/]+)/(?<track>.+)\.(?<format>[^\.]+)$}x ) {
 	@ar[$i] = {%+};
 	$i++;
-}
+} else { @ar = qw(); last; } }
 
-if (@ARGV) {
-	$line = join " ", @ARGV;
-	chomp $line;
-	Local::MusicLibrary::choice(\@ar, $line);
-}
-else {
-	Local::MusicLibrary::my_print(\@ar);
-}
+#my %hash_arg = ();
+GetOptions(\%hash_arg, 'band=s', 'year=s', 'album=s', 'track=s', 'format=s', 'sort=s', 'columns|column=s');
+if (%hash_arg && @ar) {
+	Local::MusicLibrary::choice(\@ar, \%hash_arg);
+} elsif (@ar) {
+	Local::Print::my_print(\@ar);
+	}
