@@ -20,5 +20,11 @@ our $VERSION = '1.00';
 =head1 SYNOPSIS
 
 =cut
+my $sum;
+sub new {
+my $class = shift;
+my %params = @_;
+bless \%params, $class;
+}
 
 1;
