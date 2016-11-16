@@ -26,25 +26,21 @@ sub my_print{
 	my $sum;
 	for my $j (@columns_out) { $sum += $lhash{$j}; }
 	print "/".("-" x ($sum+@columns_out*3-1))."\\\n";
-	foreach my $k (@sort_ar) {
-		my $c = 0;	
-		for my $j(@columns_out) {
-			 if ($c == 0) { printf "| %${lhash{$j}}s |", $k->{$j}; $c++; } else { printf " %${lhash{$j}}s |", $k->{$j}; }
-			}
+	foreach my $k (@sort_ar) {	
+		print "|"; 
+		for my $j(@columns_out) { printf " %${lhash{$j}}s |", $k->{$j}; }
 		print "\n";
 		$i+=1;
-		if ($i==$count) { last; }
-		$c = 0;
-		for my $j(@columns_out){
-					if (($c == 0) & ($#columns_out == 0)) { 
-						print "|".("-" x ( $lhash{$j} + 2 )."|" ); last;}
+		if ($i < $count) { 
+		my $c = 0;
+		print "|";
+		for my $j(@columns_out) {
 					if ($c == 0) { 
-						print "|".("-" x ( $lhash{$j} + 2 ) ); $c++; 
-					} elsif ($c == $#columns_out) { 
-						print "+".( "-" x ($lhash{$j}+2) )."|"; 
-					} else { print "+".( "-" x ($lhash{$j} + 2) );$c++; }
-				}
-		print "\n";
+						print "-" x ( $lhash{$j} + 2 ); $c++; 
+					} else { print "+".( "-" x ($lhash{$j} + 2 )) }
+		}
+		print "|\n";
+		}
 	}
 	print "\\".( "-" x ($sum+@columns_out*3-1) )."/\n";
 }

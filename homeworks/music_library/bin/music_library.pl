@@ -10,7 +10,7 @@ use Local::MusicLibrary;
 use Local::Print;
 
 
-my ($line, @ar, @out_ar, %hash_arg);
+my ($ref, $line, @ar, @out_ar, %hash_arg);
 my $i = 0;
 
 while(<STDIN>) {
@@ -20,10 +20,12 @@ while(<STDIN>) {
 	$i++;
 } else { @ar = qw(); last; } }
 
-#my %hash_arg = ();
 GetOptions(\%hash_arg, 'band=s', 'year=s', 'album=s', 'track=s', 'format=s', 'sort=s', 'columns|column=s');
 if (%hash_arg && @ar) {
-	Local::MusicLibrary::choice(\@ar, \%hash_arg);
+	$ref = Local::MusicLibrary::choice(\@ar, \%hash_arg);
+	if ($ref) { 
+	$#{$ref} == 0 ? Local::Print::my_print($ref -> [0]) : Local::Print::my_print($ref -> [0], $ref -> [1]);}
 } elsif (@ar) {
 	Local::Print::my_print(\@ar);
 	}
+	
