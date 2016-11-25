@@ -21,31 +21,27 @@ our $VERSION = '1.00';
 
 =cut
 my $diff = 0;
+my $str;
 
 sub reduce_all {
 	my $self = shift;
-	while(1){ 
-		my $str = $self -> {source} -> next;
-		if (!defined $str) { print "$diff\n"; $self -> {diff} = $diff; return $diff; }
-		my $top_value = $self -> {row_class} -> new(str => $str) -> get($self -> {top}, 0);
-		my $bottom_value = $self -> {row_class} -> new(str => $str) -> get($self -> {bottom}, 0);
-		$diff = $top_value - $bottom_value > $diff ? $top_value - $bottom_value : $diff;
-	}
+	while(defined(my $value = $self -> return_value)) { 
+		$diff = $value > $diff ? $value : $diff;
+		$self -> {value} = $diff; }
+	return $diff;
 }
 
 sub reduce_n {
 	my $self = shift;
 	my $n = shift;
 		for (1..$n) {
-			my $str = $self -> {source} -> next;
-			if (!defined $str) { print "$diff\n"; return $diff; }
-			my $top_value = $self -> {row_class} -> new(str => $str) -> get($self -> {top}, 0);
-			my $bottom_value = $self -> {row_class} -> new(str => $str) -> get($self -> {bottom}, 0);
-			$diff = $top_value - $bottom_value > $diff ? $top_value - $bottom_value : $diff;
-			$self -> {diff} = $diff;
-			}
+			if (defined(my $value = $self -> return_value)){
+			$diff = $value > $diff ? $value : $diff;
+			$self -> {value} = $diff;
+			} else { return $diff; }
+		}
 	return $diff;
 }
 
-sub reduced {my $self = shift; $self -> {diff}; }
+
 1;

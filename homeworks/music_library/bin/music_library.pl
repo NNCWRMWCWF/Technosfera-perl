@@ -11,15 +11,11 @@ use Local::Print;
 
 
 my ($ref, $line, @ar, @out_ar, %hash_arg);
-my $i = 0;
 
 while(<STDIN>) {
-    chomp;
-    if ( $_ =~ m{^\. /(?<band>[^/]+)/(?<year>\d+)\s+ - \s+(?<album>[^/]+)/(?<track>.+)\.(?<format>[^\.]+)$}x ) {
-	@ar[$i] = {%+};
-	$i++;
+    if ( $_ =~ m{^\. /(?<band>[^/]+)/(?<year>\d+)\s+ - \s+(?<album>[^/]+)/(?<track>.+)\.(?<format>[^\.]+)\n}x ) {
+	push @ar, {%+};
 } else { @ar = qw(); last; } }
-
 GetOptions(\%hash_arg, 'band=s', 'year=s', 'album=s', 'track=s', 'format=s', 'sort=s', 'columns|column=s');
 if (%hash_arg && @ar) {
 	$ref = Local::MusicLibrary::choice(\@ar, \%hash_arg);

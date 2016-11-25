@@ -11,9 +11,7 @@ sub new {
 }
 
 sub get {
-	my $self = shift;
-	my $name = shift;
-	my $default = shift;
+	my ($self, $name, $default) = @_;
 	$self -> {str} =~ m/$name:\s*(\d+)/;
 	return $1 ? $1 : $default;
 }

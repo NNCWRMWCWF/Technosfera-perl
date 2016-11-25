@@ -23,27 +23,26 @@ our $VERSION = '1.00';
 =cut
 
 my $sum = 0;
+my $str;
 
 sub reduce_all {
 	my $self = shift;
-	while(1) { 
-		my $str = $self -> {source} -> next;
-		if (!defined $str) { print "$sum\n"; $self -> {sum} = $sum; return $sum; }
-		$sum += $self -> {row_class} -> new(str => $str) -> get($self -> {field}, 0);
-	}
+	while(defined(my $value = $self -> return_value)) {
+		$sum += $value;
+		$self -> {value} = $sum;} 
+	return $sum; 
 }
+
 sub reduce_n {
 	my $self = shift;
 	my $n = shift;
 	for (1..$n) { 
-		my $str = $self -> {source} -> next;
-		if (!defined $str) { print "$sum\n"; $self -> {sum} = $sum; return $sum; }
-		$sum += $self -> {row_class} -> new(str => $str) -> get($self -> {field}, 0);
+		if (defined(my $value = $self -> return_value)) {
+			$sum += $value;
+		} else { $self -> {value} = $sum; return $sum; }
 	}
-	$self -> {sum} = $sum;
+	$self -> {value} = $sum;
 	return $sum;
 }
-
-sub reduced { my $self = shift; $self -> {sum}; }
 
 1;

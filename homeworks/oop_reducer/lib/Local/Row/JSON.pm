@@ -3,21 +3,15 @@ package Local::Row::JSON;
 use strict;
 use warnings;
 use DDP;
+use JSON::XS;
+use base qw(Local::Row::Simple);
 no warnings 'experimental';
 
-sub new {
-	my $class = shift;
-	my %params = @_;
-	bless \%params, $class;
-}
-
 sub get {
-	my $self = shift;
-	my $name = shift;
-	my $default = shift;
+	my ($self, $name, $default) = @_;
 	my $st = $self -> {str};
-	$st =~ m/"$name":\s*(\d+)/;
-	return $1 ? $1 : $default;
+	my $out = JSON::XS -> new -> utf8 -> decode($st) -> {$name};
+	return $out ? $out : $default;
 }
 
 1;
