@@ -15,26 +15,32 @@ sub STATUS_ERROR {4}
 sub pack_header {
 	my $pkg = shift;
 	my $type = shift;
-	my $size = shift;
-	...
+	my $size = shift; 
+	my $header = pack 'C2', $type, $size;
+	return $header;
 }
 
 sub unpack_header {
 	my $pkg = shift;
 	my $header = shift;
-	...
+	(my $type, my $size) = unpack('C2', $header);
+	my @ar;
+	push @ar, $type, $size;
+	return \@ar;
 }
 
 sub pack_message {
 	my $pkg = shift;
 	my $messages = shift;
-	...
+    my $msg = pack 'A*', @$messages;
+	return $msg;
 }
 
 sub unpack_message {
 	my $pkg = shift;
 	my $message = shift;
-	...
+	my $msg = unpack 'A*', $message;
+	return $msg;
 }
 
 1;
